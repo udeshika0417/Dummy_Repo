@@ -1,17 +1,29 @@
-function doGet() {
- 
-  return HtmlService.createHtmlOutputFromFile("exe");
- 
-  
-  
+function doGet(e) {
+  var htmlOutput =  HtmlService.createTemplateFromFile('exe');
+  htmlOutput.search='';
+ return htmlOutput.evaluate();
 }
 
-function userClicked(name){
-  var url= "https://docs.google.com/spreadsheets/d/1HVEcXKN4_UvzHw6mRzGlbsIy_sGDhb5duv4GtOXHzvU/edit#gid=0";
+function doPost(e) {
+  var search =e.parameter.search;
+  var htmlOutput =  HtmlService.createTemplateFromFile('exe');
+  htmlOutput.search= search;
+  return htmlOutput.evaluate();
+}
+
+function getSheetData()  { 
+
+   var url= "https://docs.google.com/spreadsheets/d/1QhnLhOIsIwdAbYL-CvjXbW-nEKg5iu30ZnMSQHR7l28/edit#gid=1026244210";
   var ss = SpreadsheetApp.openByUrl(url);
-  var ws = ss.getSheetByName("Data");
-  
-  ws.appendRow([name,new Date()]);
-  //Logger.log(name+ " clicked the Button")
-  
+
+  var dataSheet = ss.getSheetByName('unlockHistory'); 
+ var dataRange = dataSheet.getDataRange();
+ var dataValues = dataRange.getDisplayValues();  
+  return dataValues;
+}
+
+function getUrl(){
+  var url =ScriptApp.getService().getUrl();
+  return url;
+   Logger.log(url)
 }

@@ -6,6 +6,7 @@
   <body>
     <h1>Hello.....</h1>
     <h2>My name is udeshika Rathnayka </h2>
+    <h2>My name is udeshika Rathnayka </h2>
     <label>Name:</label><input type="text" id="username">
 
     <button id="btn">Run it</button>
@@ -22,6 +23,25 @@
     }
     </script>
     
+
+
+    function doGet() {
+ 
+  return HtmlService.createHtmlOutputFromFile("exe");
+ 
+  
+  
+}
+
+function userClicked(name){
+  var url= "https://docs.google.com/spreadsheets/d/1HVEcXKN4_UvzHw6mRzGlbsIy_sGDhb5duv4GtOXHzvU/edit#gid=0";
+  var ss = SpreadsheetApp.openByUrl(url);
+  var ws = ss.getSheetByName("Data");
+  
+  ws.appendRow([name,new Date()]);
+  //Logger.log(name+ " clicked the Button")
+  
+}
   </body>
 </html>
 
