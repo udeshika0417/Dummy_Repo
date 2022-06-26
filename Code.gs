@@ -1,29 +1,24 @@
+/**
+ * Get the URL for the Google Apps Script running as a WebApp.
+ */
+function getScriptUrl() {
+ var url = ScriptApp.getService().getUrl();
+ return url;
+}
+
+/**
+ * Get "home page", or a requested page.
+ * Expects a 'page' parameter in querystring.
+ *
+ * @param {event} e Event passed to doGet, with querystring
+ * @returns {String/html} Html to be served
+ */
 function doGet(e) {
-  var htmlOutput =  HtmlService.createTemplateFromFile('exe');
-  htmlOutput.search='';
- return htmlOutput.evaluate();
-}
-
-function doPost(e) {
-  var search =e.parameter.search;
-  var htmlOutput =  HtmlService.createTemplateFromFile('exe');
-  htmlOutput.search= search;
-  return htmlOutput.evaluate();
-}
-
-function getSheetData()  { 
-
-   var url= "https://docs.google.com/spreadsheets/d/1QhnLhOIsIwdAbYL-CvjXbW-nEKg5iu30ZnMSQHR7l28/edit#gid=1026244210";
-  var ss = SpreadsheetApp.openByUrl(url);
-
-  var dataSheet = ss.getSheetByName('unlockHistory'); 
- var dataRange = dataSheet.getDataRange();
- var dataValues = dataRange.getDisplayValues();  
-  return dataValues;
-}
-
-function getUrl(){
-  var url =ScriptApp.getService().getUrl();
-  return url;
-   Logger.log(url)
+  Logger.log( Utilities.jsonStringify(e) );
+  if (!e.parameter.page) {
+    // When no specific page requested, return "home page"
+    return HtmlService.createTemplateFromFile('home').evaluate();
+  }
+  // else, use page parameter to pick an html file from the script
+  return HtmlService.createTemplateFromFile(e.parameter['page']).evaluate();
 }
