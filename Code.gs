@@ -1,5 +1,5 @@
-function doGet(e) {
-  Logger.log(e.parameter);
+function doGet() {
+ 
   return HtmlService.createHtmlOutputFromFile("exe");
  
   
